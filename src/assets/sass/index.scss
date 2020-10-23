@@ -2,8 +2,9 @@
 @import "functions";
 @import "global";
 
-html, body, #root{
-	// height: 100%;
+html, body, #root, #app {
+	height: 100%;
+	overflow: hidden;
 }
 
 #root {
@@ -18,8 +19,9 @@ html, body, #root{
 		}
 	}
 	#app {
-		// min-height: 100%;
-		background: $light;
+		#app-wrapper, #sidebar {
+			overflow: auto;
+		}
 		@import "Header";
 		@import "Home";
 		@import "About";

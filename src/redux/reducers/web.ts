@@ -1,8 +1,8 @@
-const initState: object = {
-	search: ''
+export const reducerWebInitState = {
+	loggedIn: true
 }
 
-const reducerUi = (state = initState, actions: any) => {
+const reducerWeb = (state = reducerWebInitState, actions: any) => {
 	switch (actions.type) {
 		case 'GET_UI':
 			return {
@@ -15,9 +15,9 @@ const reducerUi = (state = initState, actions: any) => {
 				...actions.payload,
 			}
 		case 'GET_UI_REJECTED':
-			return { ...initState }
+			return { ...reducerWebInitState }
 		default: return state
 	}
 }
 
-export default reducerUi
+export default reducerWeb

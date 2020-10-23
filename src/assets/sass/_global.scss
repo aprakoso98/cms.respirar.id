@@ -22,6 +22,9 @@
 .brd-1 {
   border-radius: $secondary;
 }
+.brd-10 {
+  border-radius: $secondary * 10;
+}
 [component-id] {
   @include append-attr('button') {
     background: $light;

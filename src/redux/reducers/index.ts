@@ -1,12 +1,10 @@
 import { combineReducers } from "redux"
-import reducerUi from './ui';
 import reducerModal from './modal';
-import reducerMarketplaces from './marketplaces';
+import reducerWeb from './web';
 
 export const reducers = {
-	UI: reducerUi,
+	Web: reducerWeb,
 	Modal: reducerModal,
-	Marketplace: reducerMarketplaces
 }
 
 const webReducer = combineReducers(reducers)
