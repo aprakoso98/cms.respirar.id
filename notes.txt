@@ -1,0 +1,8 @@
+bug 404 screen not 100%
+
+arrow banner jadi 30px
+about home button outline & bg transpaent
+
+bawah banner learn more redirect ke about scroll
+
+footer fb ig kecilin

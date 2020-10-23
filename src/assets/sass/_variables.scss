@@ -1,0 +1,22 @@
+$transition: .5s;
+
+$fontSize: 14px;
+$pw: 100px;
+$pw2: $pw / 2;
+$ph: 35px;
+$base: 20px;
+$secondary: 10px;
+$space: 5px;
+
+$blueSky: #ECF2F5;
+$blue: #9FBACD;
+$light: #FFFFFF;
+$dark: #505050;
+$darkTr: transparentize($dark, .5);
+$grey: #F5F6F8;
+$greyHard: #9F9F9F;
+$text: $greyHard;
+
+$colorList: ('transparent', transparent), ('dark-tr', $darkTr), ('text', $text), ('blue', $blue), ('blueSky', $blueSky), ('light', $light), ('dark', $dark), ('grey', $grey), ('greyHard', $greyHard);
+
+$fontList: "Arimo-Bold.ttf","Arimo-BoldItalic.ttf","Arimo-Italic.ttf","Arimo-Regular.ttf","Playfair-Display-Black.ttf","Playfair-Display-BlackItalic.ttf","Playfair-Display-ExtraBold.ttf","Playfair-Display-ExtraBoldItalic.ttf","Playfair-Display-Italic-VariableFont_wght.ttf","Playfair-Display-Medium.ttf","Playfair-Display-MediumItalic.ttf","Playfair-Display-Regular.ttf","Playfair-Display-SemiBold.ttf","Playfair-Display-SemiBoldItalic.ttf","Playfair-Display-VariableFont_wght.ttf";

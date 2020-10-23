@@ -1,0 +1,30 @@
+@import "variables";
+@import "functions";
+@import "global";
+
+html, body, #root{
+	// height: 100%;
+}
+
+#root {
+	* {
+		-webkit-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		color: $text;
+		font-size: $fontSize;
+		&:not([component-id="icon"]) {
+			font-family: Regular;
+		}
+	}
+	#app {
+		// min-height: 100%;
+		background: $light;
+		@import "Header";
+		@import "Home";
+		@import "About";
+		@import "Collections";
+		@import "Product";
+		@import "Footer";
+	}
+}

@@ -1,0 +1,10 @@
+#header {
+	#menu {
+		// padding: 10px 15px !important;
+		[component-id="button"] {
+			&.active > div {
+				font-family: Bold !important;
+			}
+		}
+	}
+}
