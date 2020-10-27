@@ -2,12 +2,17 @@ import { useState } from 'react'
 
 interface stateType { [key: string]: unknown }
 
-const useStateObject = <S extends stateType>(initState: S): [S, (newValue: S) => void] => {
+export const useToggle = (init: boolean = false): [boolean, (set?: boolean) => void] => {
+	const [toggle, setToggle] = useState(init)
+	return [toggle, (set) => setToggle(set !== undefined ? set : !toggle)]
+}
+
+export const useStateObject = <S extends stateType>(initState: S): [S, (newValue: S) => void] => {
 	const [state, setState] = useState(initState)
 	return [state, (newValue: S) => setState({ ...state, ...newValue })]
 }
 
-const useStateArray = <S>(initialValue: S[] = []): [
+export const useStateArray = <S>(initialValue: S[] = []): [
 	S[],
 	(state: S, indexOrPush?: boolean | number) => void,
 	(override: S[]) => void
@@ -23,5 +28,3 @@ const useStateArray = <S>(initialValue: S[] = []): [
 		setState(newState)
 	}, (override: S[]) => setState(override)]
 }
-
-export { useStateObject, useStateArray }

@@ -25,6 +25,10 @@
 .brd-10 {
   border-radius: $secondary * 10;
 }
+.List {
+  display: flex;
+  flex-wrap: wrap;
+}
 [component-id] {
   @include append-attr('button') {
     background: $light;
@@ -32,7 +36,6 @@
     &.link {
       padding: 0;
       background: transparent;
-      justify-content: flex-start;
     }
   }
   @include append-attr('icon') {

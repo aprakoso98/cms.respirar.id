@@ -12,6 +12,7 @@ import View from 'src/components/elements/View';
 import useWindowSize from 'src/hooks/useWindowSize';
 import SideBar from '../components/commons/SideBar';
 import Text from 'src/components/elements/Text';
+import ManageBanner from './Auth/Banner';
 
 const App = (): JSX.Element => {
 	const [, , isMobile] = useWindowSize()
@@ -38,7 +39,8 @@ const AuthRoutes = ({ url }: { url: string }) => {
 		<View id="app-wrapper" style={{ height }} className="p-3 w-3/4">
 			<Switch>
 				<Route exact path={url} component={Home} />
-				<Route path={`${url}/manage`} component={Manage} />
+				<Route path={`${url}/banner`} component={ManageBanner} />
+				<Route path={`${url}/info`} component={Manage} />
 			</Switch>
 		</View>
 	</Wrapper>

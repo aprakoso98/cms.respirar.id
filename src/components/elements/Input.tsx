@@ -1,5 +1,5 @@
 import React, { HTMLAttributes } from 'react';
-import { ViewProps } from './View';
+import View, { ViewProps } from './View';
 import Wrapper from './Wrapper';
 
 interface InputProps extends HTMLAttributes<HTMLInputElement> {
@@ -10,17 +10,21 @@ interface InputProps extends HTMLAttributes<HTMLInputElement> {
 }
 
 const Input = ({
-	renderRightAccessory = () => null,
-	renderLeftAccessory = () => null,
+	renderRightAccessory,
+	renderLeftAccessory,
 	className = "",
 	noBorder,
 	wrapper,
 	...rest
 }: InputProps): JSX.Element => {
 	return <Wrapper idComponent="input" className={`${noBorder ? 'no-border' : ''} ${className}`} {...wrapper}>
-		{renderLeftAccessory()}
+		{renderLeftAccessory && <View className="mr-1">
+			{renderLeftAccessory()}
+		</View>}
 		<input className="w-full" {...rest} />
-		{renderRightAccessory()}
+		{renderRightAccessory && <View className="mr-1">
+			{renderRightAccessory()}
+		</View>}
 	</Wrapper>
 }
 

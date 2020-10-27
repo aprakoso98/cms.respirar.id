@@ -22,6 +22,7 @@ const View = ({
 	direction = "col",
 	className = "",
 	idComponent = "view",
+	onClick,
 	flex,
 	children,
 	replaceClass,
@@ -34,9 +35,9 @@ const View = ({
 	...rest
 }: ViewProps): ReactElement => {
 	const classes = ['self', 'justify', 'items', 'content', 'text'].map(c => eval(c) && `${c}-${eval(c)}`).filter(c => c).join(' ')
-	className = replaceClass ? className : `flex ${wrap ? 'flex-wrap' : ''} flex-${direction} ${flex ? 'flex-1' : ''} ${classes} ${className}`
+	className = replaceClass ? className : `flex ${wrap ? 'flex-wrap' : ''} flex-${direction} ${flex ? 'flex-1' : ''} ${classes} ${onClick ? 'pointer' : ''} ${className}`
 		.replace(/\s\s+/g, ' ')
-	return <div component-id={idComponent} className={className} {...rest}>{children && children}</div>
+	return <div onClick={onClick} component-id={idComponent} className={className} {...rest}>{children && children}</div>
 }
 
 export default View

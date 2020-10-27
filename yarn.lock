@@ -1220,6 +1220,11 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@interactjs/types@1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@interactjs/types/-/types-1.10.0.tgz#c2232ed3ba503891349912fa74aa05aa467403e9"
+  integrity sha512-TB4uHd++aXqiWHQNzERcP8cxOLHCd+b3fq0XoV7Ydnappoq25R8iIrrB8Yb2FqVkZXnj1SIFYnzpol1SYHFIMQ==
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"
@@ -2531,6 +2536,11 @@ atob@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
+
+autobind-decorator@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/autobind-decorator/-/autobind-decorator-2.4.0.tgz#ea9e1c98708cf3b5b356f7cf9f10f265ff18239c"
+  integrity sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==
 
 autoprefixer@^9.6.1:
   version "9.8.6"
@@ -5987,6 +5997,13 @@ inquirer@^7.0.0:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
+interactjs@^1.2.8:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/interactjs/-/interactjs-1.10.0.tgz#0fafd725b1fddfc9671cacd98c4f92ceae73a197"
+  integrity sha512-dblDEizs758xETNVoSSxcZiwrP0DmFeNKILeDfhmO13LQRIsnSvbJFEYerEBVeH5m9qsOyYeMgBTafA+ZKkyBg==
+  dependencies:
+    "@interactjs/types" "1.10.0"
+
 internal-ip@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/internal-ip/-/internal-ip-4.3.0.tgz#845452baad9d2ca3b69c635a137acb9a0dad0907"
@@ -6808,6 +6825,20 @@ jest@24.9.0:
     import-local "^2.0.0"
     jest-cli "^24.9.0"
 
+jodit-react@^1.0.66:
+  version "1.0.66"
+  resolved "https://registry.yarnpkg.com/jodit-react/-/jodit-react-1.0.66.tgz#62ac2bcd1af8b5ac45327591d02ea637c36670ab"
+  integrity sha512-qGuQituwzJU9DP9bbo9ACYrRAKQPHbCfCw0xelEeLRkLX7Z2eJn+qs+BmmA+sq2BCzam1MPl853DuClkfIIedw==
+  dependencies:
+    jodit "^3.4.29"
+
+jodit@^3.4.29:
+  version "3.4.29"
+  resolved "https://registry.yarnpkg.com/jodit/-/jodit-3.4.29.tgz#fba8d9678b954d5d5ea5015b50628c704f7658a2"
+  integrity sha512-1rW4aBeG5hgdTjNxYOWN2hc51M5O4U3BNdwxaxwLR8pIlrjmeDVxZu2YZ6L4TI1MfFRCpczL0vPzj6hlTFyvng==
+  dependencies:
+    autobind-decorator "^2.4.0"
+
 js-base64@^2.1.8:
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.6.4.tgz#f4e686c5de1ea1f867dbcad3d46d969428df98c4"
@@ -7205,7 +7236,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.5, lodash@~4.17.10:
+"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.4, lodash@^4.17.5, lodash@~4.17.10:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
@@ -9405,6 +9436,14 @@ react-dom@^16.13.1:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.19.1"
+
+react-drag-sortable@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-drag-sortable/-/react-drag-sortable-1.0.6.tgz#8e979772b2a759b3ed3cb0afcc5cd677457b010c"
+  integrity sha512-EO0pYDMbI9vPT8TXJ3D7fZ58BYQ2F9WPzNkoE+IuKExzZ8Ab0RfoenpZAk55i15XeD/K7+dI7JRPnxvXI7DCIQ==
+  dependencies:
+    interactjs "^1.2.8"
+    lodash "^4.17.4"
 
 react-elastic-carousel@^0.7.4:
   version "0.7.9"
