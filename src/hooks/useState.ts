@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-interface stateType { [key: string]: unknown }
+type stateType = MyObject<unknown>
 
 export const useToggle = (init: boolean = false): [boolean, (set?: boolean) => void] => {
 	const [toggle, setToggle] = useState(init)

@@ -11,16 +11,16 @@ import { setPosition, manageBanner } from 'src/utils/api';
 import FileUpload from 'src/components/elements/FileUpload';
 import Wrapper from 'src/components/elements/Wrapper';
 
-interface BannerType {
-	redirect: string
-	image: string
-	btnText: string
-	visible: string
-	id: string
-}
+type BannerType = Record<'redirect' | 'image' | 'btnText' | 'visible' | 'id', string>
+type OnBlurType = Record<'id' | 'target' | 'current' | 'value', string>
 
 const ManageBanner = () => {
 	const [banners, , initBanner] = useStateArray<BannerType>()
+	const onBlur = async ({ current, id, target, value }: OnBlurType) => {
+		if (current !== value) {
+			await manageBanner({ id, target, value, type: 'change' })
+		}
+	}
 	const getData = async () => {
 		const { status, data } = await getBanner<BannerType[]>()
 		if (status) {
@@ -60,10 +60,18 @@ const ManageBanner = () => {
 						</Wrapper>
 						<Image style={{ opacity: isVisible ? 1 : .3 }} source={FILE_PATH + image} />
 					</View>
-					{/* @ts-ignore */}
-					<Input className="p-1 mv-1" renderLeftAccessory={() => <Icon name="font" />} value={btnText} />
-					{/* @ts-ignore */}
-					<Input className="p-1" renderLeftAccessory={() => <Icon name="link" />} value={redirect} />
+					<Input
+						onBlur={e => onBlur({ id, target: 'btnText', current: btnText, value: e.target.value })}
+						className="p-1 mv-1"
+						renderLeftAccessory={() => <Icon name="font" />}
+						defaultValue={btnText}
+					/>
+					<Input
+						onBlur={e => onBlur({ id, target: 'redirect', current: redirect, value: e.target.value })}
+						className="p-1"
+						renderLeftAccessory={() => <Icon name="link" />}
+						defaultValue={redirect}
+					/>
 				</View>
 			}}
 		/>

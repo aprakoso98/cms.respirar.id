@@ -1,5 +1,3 @@
-export interface objectType<T> { [key: string]: T }
-
 import { RouteComponentProps } from "react-router-dom";
 import { Colors } from "./constants";
 
@@ -19,9 +17,7 @@ export type marketplaceType = {
 	marketPlaceName: string
 }
 
-export type productMarketplaceType = {
-	[key: string]: string
-}
+export type productMarketplaceType = MyObject
 
 export type collectionType = {
 	id: string,

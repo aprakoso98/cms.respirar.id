@@ -3,10 +3,10 @@ import DragSortableList from 'react-drag-sortable'
 import React from 'react';
 import View, { ViewProps } from './View';
 
-interface Props<D = { [key: string]: unknown }> extends ViewProps {
+interface Props<D = MyObject<unknown>> extends ViewProps {
 	data: D[]
 	renderItem: ({ item, index, i }: { item: D, i: number, index: number }) => JSX.Element
-	onSort: (data: { [key: string]: number }) => void
+	onSort: (data: MyObject<number>) => void
 	itemClass?: string
 }
 
@@ -21,7 +21,7 @@ const DragSortable = <D,>({ onSort: onSortFn, itemClass, renderItem, data, ...pr
 		})
 	}
 	const onSort = (data: { id: string, rank: number }[]) => {
-		const idSortedList = data.reduce((ret: { [key: string]: number }, { id, rank }) => {
+		const idSortedList = data.reduce((ret: MyObject<number>, { id, rank }) => {
 			ret[id] = rank
 			return ret
 		}, {})
