@@ -6,6 +6,23 @@ const { BASE_URL } = config
 const API = BASE_URL + '/api.php'
 export const FILE_PATH = BASE_URL + '/files'
 
+/* Must with token */
+export const setPosition = async <S>(params: object = {}): Promise<ResponseType<S>> => {
+	const resp = await axios.post(API, {
+		action: "SetPosition",
+		...params
+	})
+	return resp.data
+}
+export const manageBanner = async <S>(params: object = {}): Promise<ResponseType<S>> => {
+	const resp = await axios.post(API, {
+		action: "ManageBanner",
+		...params
+	})
+	return resp.data
+}
+
+/* Without token */
 export const getBanner = async <S>(params: object = {}): Promise<ResponseType<S>> => {
 	const resp = await axios.post(API, {
 		action: "GetBanner",

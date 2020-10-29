@@ -1,6 +1,11 @@
 export { }
 
+export interface toBase64Type { error?: boolean, file: string, format: string, name: string }
+
 declare global {
+	interface FileList {
+		toBase64(): Promise<toBase64Type[]>
+	}
 	interface FormData {
 		appendObject(obj: { [key: string]: string }, except?: string[]): void;
 	}

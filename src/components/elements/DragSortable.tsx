@@ -1,62 +1,41 @@
 // @ts-ignore
 import DragSortableList from 'react-drag-sortable'
 import React from 'react';
+import View, { ViewProps } from './View';
 
-interface Props<D = { [key: string]: unknown }> {
+interface Props<D = { [key: string]: unknown }> extends ViewProps {
 	data: D[]
 	renderItem: ({ item, index, i }: { item: D, i: number, index: number }) => JSX.Element
-	className?: string
-	addComponent?: {
-		content: JSX.Element
-		index: string
-		classes?: string[]
-	}[]
+	onSort: (data: { [key: string]: number }) => void
+	itemClass?: string
 }
 
-const DragSortable = <D,>({ addComponent, className, renderItem, data }: Props<D>) => {
-	// const listWithNoDrag = [
-	// 	{ content: (<div>test1<input type='text' className='no-drag' /></div>) },
-	// 	{ content: (<div>test2<input type='text' className='no-drag' /></div>) },
-	// 	{ content: (<div>test3<input type='text' className='no-drag' /></div>) },
-	// ]
-	// return <DragSortableList
-	// 	items={listWithNoDrag}
-	// 	dropBackTransitionDuration={0.3}
-	// 	onSort={(a: any) => console.log(a)}
-	// />
+const DragSortable = <D,>({ onSort: onSortFn, itemClass, renderItem, data, ...props }: Props<D>) => {
 	const renderBanner = (data: any) => {
-		const retData = data.map((item: D, i: number) => {
+		return data.map((item: { id: string } & D, i: number) => {
 			return {
-				// id,
-				index: `${i}a`,
-				classes: [className],
+				id: item.id,
+				classes: [itemClass],
 				content: renderItem({ item, i, index: i })
 			}
 		})
-		const w = [...retData, ...addComponent ? addComponent : []]
-			.sort((a, b) => {
-				if (a.index < b.index) {
-					return -1;
-				}
-				if (a.index > b.index) {
-					return 1;
-				}
-				return 0;
-			})
-		return w
 	}
-	const onSort = (data: any, dropEvent: unknown) => {
-		console.log(data)
-		console.log(dropEvent)
+	const onSort = (data: { id: string, rank: number }[]) => {
+		const idSortedList = data.reduce((ret: { [key: string]: number }, { id, rank }) => {
+			ret[id] = rank
+			return ret
+		}, {})
+		onSortFn(idSortedList)
 	}
-	return <DragSortableList
-		class="flex flex-wrap"
-		items={renderBanner(data)}
-		dropBackTransitionDuration={0.3}
-		onSort={onSort}
-		type="grid"
-		placeholder={<div className="bc-grey h-full w-full p-5 ta-c ai-c jc-c">Drop here</div>}
-	/>
+	return <View {...props}>
+		<DragSortableList
+			items={renderBanner(data)}
+			dropBackTransitionDuration={0.3}
+			onSort={onSort}
+			type="grid"
+			placeholder={<div className="bc-grey h-full w-full p-5 ta-c ai-c jc-c">Drop here</div>}
+		/>
+	</View>
 }
 
 export default DragSortable

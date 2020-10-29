@@ -3,6 +3,31 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { isValidElement, cloneElement } from 'react';
 import { objectType } from './types';
+import { toBase64Type } from '.';
+
+FileList.prototype.toBase64 = function () {
+	const files = this
+	const resolveData = ({ name, file, format }: { name: string, file: File, format: string }) => {
+		return new Promise<toBase64Type>((resolve, reject) => {
+			const reader = new FileReader()
+			reader.readAsDataURL(file);
+			reader.onload = () => resolve({ name, format, file: reader.result as string, })
+			reader.onerror = error => reject({ name, format, file: JSON.stringify(error), error: true })
+		})
+	}
+	return new Promise(async (resolve) => {
+		const data: toBase64Type[] = []
+		for (let i = 0; i < files.length; i++) {
+			const file = files[i];
+			const split = file.name.split('.')
+			const format = split[split.length - 1]
+			split.splice(split.length - 1, 1)
+			const name = split.join('')
+			data.push(await resolveData({ name, file, format }))
+		}
+		resolve(data)
+	})
+}
 
 FormData.prototype.appendObject = function (obj, except) {
 	except = except || []
