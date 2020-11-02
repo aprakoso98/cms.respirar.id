@@ -7,6 +7,13 @@ const API = BASE_URL + '/api.php'
 export const FILE_PATH = BASE_URL + '/files'
 
 /* Must with token */
+export const setInfo = async <S>(params: object = {}): Promise<ResponseType<S>> => {
+	const resp = await axios.post(API, {
+		action: "SetInfo",
+		...params
+	})
+	return resp.data
+}
 export const setPosition = async <S>(params: object = {}): Promise<ResponseType<S>> => {
 	const resp = await axios.post(API, {
 		action: "SetPosition",

@@ -1,9 +1,5 @@
-/* eslint-disable no-case-declarations */
 import { FILE_PATH } from './api';
 import { productMarketplaceType } from './types';
-import Image, { ImageProps } from '../components/elements/Image';
-import A from '../components/elements/A';
-import HtmlParser from 'react-html-parser';
 
 export const convertPath = (str: string): string => str.replace(/\$FILE_PATH/g, FILE_PATH)
 
@@ -31,43 +27,28 @@ export const generateMarketplace = (marketplacesString: string = '{}', marketpla
 	}, [])
 }
 
-export const parseAll = (data: unknown) => {
+export const parseAll = <R>(data: unknown): R[] => {
 	const allData = data as {
 		key: string,
 		detail: string,
-		type: 'image' | 'text' | 'list' | 'object' | 'email' | 'tel' | 'article' | 'whatsapp' | 'about-home'
+		type: 'file' | 'image' | 'text' | 'list' | 'object' | 'email' | 'tel' | 'article' | 'whatsapp' | 'about-home'
 	}[]
-	return allData.reduce((ret: object, data) => {
-		const key = data.key.kebabToCamel()
+	return allData.reduce((ret: MyObject<unknown>[], data) => {
+		const key = data.key
 		const { type, detail } = data
 		switch (type) {
+			case 'file':
 			case 'image':
-				// @ts-ignore 
-				ret[key] = (props: ImageProps) => Image({ source: FILE_PATH + detail, ...props })
+				ret.push({ key, type, detail: FILE_PATH + detail })
 				break
-			case 'about-home':
 			case 'list':
 			case 'object':
-				// @ts-ignore 
-				ret[key] = JSON.parse(detail)
-				break
-			case 'whatsapp':
-			case 'email':
-			case 'tel':
-				const href = type === 'whatsapp' ? `https://wa.me/62${detail}` :
-					type === 'email' ? `mailto://${detail}` : `tel://${detail}`
-				// @ts-ignore 
-				ret[key] = (props) => A({ target: '_blank', children: detail, href, ...props })
-				break
-			case 'article':
-				// @ts-ignore 
-				ret[key] = HtmlParser(detail)
+				ret.push({ key, type, detail: JSON.parse(detail) })
 				break
 			default:
-				// @ts-ignore 
-				ret[key] = detail
+				ret.push({ key, type, detail: detail })
 				break
 		}
 		return ret
-	}, {})
+	}, []) as R[]
 }

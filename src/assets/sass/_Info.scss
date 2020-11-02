@@ -1,0 +1,13 @@
+#info {
+	& > [component-id="wrapper"] {
+		padding: 10px;
+		&:nth-child(even) {
+			background: $grey;
+		}
+		.info-items {
+			padding: $secondary;
+			background: $blue;
+			margin-bottom: $space;
+		}
+	}
+}

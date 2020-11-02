@@ -22,11 +22,6 @@ html, body, #root, #app {
 		#app-wrapper, #sidebar {
 			overflow: auto;
 		}
-		@import "Header";
-		@import "Home";
-		@import "About";
-		@import "Collections";
-		@import "Product";
-		@import "Footer";
+		@import "Info";
 	}
 }

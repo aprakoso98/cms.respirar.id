@@ -4,11 +4,17 @@ import View from './View';
 interface ModalProps {
 	visible: boolean
 	children?: string
+	onClick?: () => void
 }
 
-const Modal = ({ visible, children }: ModalProps): JSX.Element => {
+const Modal = ({ onClick, visible, children }: ModalProps): JSX.Element => {
+	const id = 'modal-container'
 	return <>
 		{visible && <View
+			noPointer
+			id={id}
+			// @ts-ignore
+			onClick={e => e.target.id === id ? onClick() : e.preventDefault()}
 			style={{ zIndex: 99 }}
 			className={`absolute w-full h-full bg-dark-tr`}
 			items="center"

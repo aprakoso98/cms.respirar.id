@@ -1,6 +1,7 @@
 export const modalInitState = {
 	visible: false,
-	content: ""
+	content: "",
+	backdropClick: () => null
 }
 
 const reducerModal = (state = modalInitState, actions: any) => {

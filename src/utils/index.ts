@@ -28,6 +28,7 @@ declare global {
 		snakeToCamel(): string
 		camelToSnake(): string
 		camelToKebab(): string
+		uuid(): string
 		openUrl(): void
 		validURL(): boolean
 		generateInitial(): string

@@ -15,6 +15,7 @@ export interface ViewProps extends HTMLAttributes<HTMLDivElement> {
 	flex?: boolean
 	idComponent?: string
 	replaceClass?: boolean
+	noPointer?: boolean
 	wrap?: boolean
 }
 
@@ -23,6 +24,7 @@ const View = ({
 	className = "",
 	idComponent = "view",
 	onClick,
+	noPointer,
 	flex,
 	children,
 	replaceClass,
@@ -35,7 +37,7 @@ const View = ({
 	...rest
 }: ViewProps): ReactElement => {
 	const classes = ['self', 'justify', 'items', 'content', 'text'].map(c => eval(c) && `${c}-${eval(c)}`).filter(c => c).join(' ')
-	className = replaceClass ? className : `flex ${wrap ? 'flex-wrap' : ''} flex-${direction} ${flex ? 'flex-1' : ''} ${classes} ${onClick ? 'pointer' : ''} ${className}`
+	className = replaceClass ? className : `flex ${wrap ? 'flex-wrap' : ''} flex-${direction} ${flex ? 'flex-1' : ''} ${classes} ${onClick && !noPointer ? 'pointer' : ''} ${className}`
 		.replace(/\s\s+/g, ' ')
 	return <div onClick={onClick} component-id={idComponent} className={className} {...rest}>{children && children}</div>
 }

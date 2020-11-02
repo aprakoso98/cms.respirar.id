@@ -4,7 +4,7 @@ import Container from 'src/components/elements/Container';
 import { useSelector } from 'react-redux';
 import Home from './Auth';
 import Login from './UnAuth';
-import Manage from './Auth/Manage';
+import Info from './Auth/Info';
 import Register from './UnAuth/Register';
 import Modal from '../components/elements/Modal';
 import Wrapper from 'src/components/elements/Wrapper';
@@ -18,12 +18,12 @@ const App = (): JSX.Element => {
 	const [, , isMobile] = useWindowSize()
 	// @ts-ignore
 	const ModalState = useSelector(state => state.Modal)
-	return <Container className={ModalState.visible ? 'fixed' : 'relative'} justify={isMobile ? 'center' : 'between'} id="app">
+	return <Container className={`w-full ${ModalState.visible ? 'fixed' : 'relative'}`} justify={isMobile ? 'center' : 'between'} id="app">
 		{isMobile ?
 			<View className="p-2" items="center">
 				<Text>Maaf, CMS tidak untuk tampilan mobile.</Text>
 			</View> : <>
-				<Modal visible={ModalState.visible}>{ModalState.content}</Modal>
+				<Modal onClick={ModalState.backdropClick} visible={ModalState.visible}>{ModalState.content}</Modal>
 				<Routes />
 			</>
 		}
@@ -40,7 +40,7 @@ const AuthRoutes = ({ url }: { url: string }) => {
 			<Switch>
 				<Route exact path={url} component={Home} />
 				<Route path={`${url}/banner`} component={ManageBanner} />
-				<Route path={`${url}/info`} component={Manage} />
+				<Route path={`${url}/info`} component={Info} />
 			</Switch>
 		</View>
 	</Wrapper>

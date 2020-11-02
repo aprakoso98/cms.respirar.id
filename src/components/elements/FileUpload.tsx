@@ -22,10 +22,9 @@ const FileUpload = ({
 	children
 	, ...props
 }: Props) => {
-	const id = "Math.randomInt(1000000, 9999999).toString()"
-	// const id2 = Math.randomInt(1000000, 9999999).toString()
+	const id = `${''.uuid()}-${''.uuid()}`
 	return <>
-		<label title={title} className={className} htmlFor={id}>
+		<label title={title} className={`pointer ${className}`} htmlFor={id}>
 			{
 				children ? children :
 					isImage && <img className={imgClass} alt="" src={src} />
@@ -34,6 +33,7 @@ const FileUpload = ({
 		<input style={{ display: 'none' }} onChange={async e => {
 			const files = e.target.files
 			if (files) {
+				console.log(files)
 				const data = await files.toBase64()
 				onChange(data)
 			}
