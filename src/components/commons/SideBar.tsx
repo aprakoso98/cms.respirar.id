@@ -31,6 +31,7 @@ const SideBar = () => {
 				{manage && <View>
 					<Button onClick={() => history.push('/app/banner')}>Banner</Button>
 					<Button onClick={() => history.push('/app/info')}>Info</Button>
+					<Button onClick={() => history.push('/app/marketplaces')}>Marketplaces</Button>
 				</View>}
 			</View>
 		</View>

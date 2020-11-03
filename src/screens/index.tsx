@@ -4,15 +4,16 @@ import Container from 'src/components/elements/Container';
 import { useSelector } from 'react-redux';
 import Home from './Auth';
 import Login from './UnAuth';
-import Info from './Auth/Info';
+import ManageInfo from './Auth/Info';
 import Register from './UnAuth/Register';
-import Modal from '../components/elements/Modal';
+import Modal from 'src/components/elements/Modal';
 import Wrapper from 'src/components/elements/Wrapper';
 import View from 'src/components/elements/View';
 import useWindowSize from 'src/hooks/useWindowSize';
 import SideBar from '../components/commons/SideBar';
 import Text from 'src/components/elements/Text';
 import ManageBanner from './Auth/Banner';
+import Marketplaces from './Auth/Marketplaces';
 
 const App = (): JSX.Element => {
 	const [, , isMobile] = useWindowSize()
@@ -40,7 +41,8 @@ const AuthRoutes = ({ url }: { url: string }) => {
 			<Switch>
 				<Route exact path={url} component={Home} />
 				<Route path={`${url}/banner`} component={ManageBanner} />
-				<Route path={`${url}/info`} component={Info} />
+				<Route path={`${url}/info`} component={ManageInfo} />
+				<Route path={`${url}/marketplaces`} component={Marketplaces} />
 			</Switch>
 		</View>
 	</Wrapper>

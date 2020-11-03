@@ -12,9 +12,8 @@ import View from 'src/components/elements/View';
 import Wrapper from 'src/components/elements/Wrapper';
 import { useStateArray, } from 'src/hooks/useState';
 import { modal } from 'src/redux/actions/modal';
-import { FILE_PATH, getInfo } from 'src/utils/api';
 import { parseAll } from 'src/utils/helper';
-import { setInfo } from '../../utils/api';
+import { setInfo, FILE_PATH, getInfo } from 'src/utils/api';
 
 type DataInfoType = {
 	updated?: boolean
@@ -29,7 +28,7 @@ type RenderManagerAdittionalType = {
 	id: string
 }
 
-const Manage = () => {
+const ManageInfo = () => {
 	const [dataInfo, setDataInfo] = useStateArray<DataInfoType>([])
 	const saveData = async () => {
 		const data = dataInfo
@@ -46,9 +45,9 @@ const Manage = () => {
 		if (oldData !== detail) setDataInfo(({ ...dataInfo[i], detail, updated: true }), i)
 	}
 	const getData = async () => {
-		const resp = await getInfo<DataInfoType>()
-		if (resp.status) {
-			const data = parseAll<DataInfoType>(resp.data)
+		const { status, data: allInfo } = await getInfo<DataInfoType>()
+		if (status) {
+			const data = parseAll<DataInfoType>(allInfo)
 			setDataInfo(data)
 		}
 	}
@@ -57,7 +56,6 @@ const Manage = () => {
 	}
 	useEffect(effect, [])
 	return <Container flex id="info">
-		<Button onClick={saveData}>Save data</Button>
 		{dataInfo.rMap(({ key, detail, type }, i) => {
 			return <Wrapper items="start">
 				<Text items="start" className="w-1/3">{key.split('-').join(' ').ucwords()}</Text>
@@ -66,6 +64,9 @@ const Manage = () => {
 				</View>
 			</Wrapper>
 		})}
+		{dataInfo.filter(d => d.updated).length > 0 &&
+			<Button className="absolute bg-blue" textProps={{ className: 'c-light' }} style={{ zIndex: 99, right: 20, bottom: 20 }} justify="center" onClick={saveData}><Icon name="save" className="c-light mr-3" />Save data</Button>
+		}
 	</Container>
 }
 
@@ -113,7 +114,7 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 								updateData(index, detail, newDetail)
 							}} value={hour} renderRightAccessory={() => <Icon className="f-5" name="trash" onClick={() => deleteFromList(index, i, detail as [])} />} />
 						})}
-						<Button onClick={() => addToList(index, aboutHours, "")}>+</Button>
+						<Button justify="center" onClick={() => addToList(index, aboutHours, "")}><Icon name="plus" className="mr-3" />Add</Button>
 					</>
 				case 'about-why-shop':
 					type AboutWhyType = { icon: string, title: string, description: string }
@@ -143,7 +144,7 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 								</View>
 							</Wrapper>
 						})}
-						<Button onClick={() => addToList(index, aboutWhy, { description: '', icon: '', title: '' })}>+</Button>
+						<Button justify="center" onClick={() => addToList(index, aboutWhy, { description: '', icon: '', title: '' })}><Icon name="plus" className="mr-3" />Add</Button>
 					</>
 				case 'socmed':
 					type SocmedType = { icon: string, name: string, url: string }
@@ -159,7 +160,7 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 								<Icon className="f-5 c-light" name="trash" onClick={() => deleteFromList(index, i, detail as [])} />
 							</Wrapper>
 						})}
-						<Button onClick={() => addToList(index, socmeds, { icon: '', name: '', url: '' })}>+</Button>
+						<Button justify="center" onClick={() => addToList(index, socmeds, { icon: '', name: '', url: '' })}><Icon name="plus" className="mr-3" />Add</Button>
 					</>
 				case 'about-home':
 					type AboutHomeType = { image: string, description: string }
@@ -181,12 +182,13 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 			return null
 		case 'article':
 			return <Button
+				justify="center"
 				onClick={() => ModalEditArticle(
 					detail as string,
 					article => {
 						updateData(index, detail, article)
 						modal.hide()
-					})}>Add</Button>
+					})}><Icon name="edit" className="mr-3" />Edit</Button>
 		default:
 			return <Input
 				onBlur={e => updateData(index, detail, e.target.value)}
@@ -195,4 +197,4 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 	}
 }
 
-export default Manage
+export default ManageInfo
