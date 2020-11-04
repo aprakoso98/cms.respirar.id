@@ -1,6 +1,5 @@
 import JoditEditor from 'jodit-react';
 import React, { useEffect, } from 'react';
-import { } from 'react-router-dom';
 import Button from 'src/components/elements/Button';
 import Container from 'src/components/elements/Container';
 import FileUpload from 'src/components/elements/FileUpload';
@@ -13,14 +12,14 @@ import Wrapper from 'src/components/elements/Wrapper';
 import { useStateArray, } from 'src/hooks/useState';
 import { modal } from 'src/redux/actions/modal';
 import { parseAll } from 'src/utils/helper';
-import { setInfo, FILE_PATH, getInfo } from 'src/utils/api';
+import { uploadFile, setInfo, FILE_PATH, getInfo } from 'src/utils/api';
 
 type DataInfoType = {
 	updated?: boolean
 	index: number
 	key: string
 	detail: string | unknown[] | MyObject<unknown>
-	type: 'file' | 'image' | 'text' | 'list' | 'object' | 'email' | 'tel' | 'article' | 'whatsapp' | 'about-home'
+	type: 'file' | 'image' | 'text' | 'list' | 'object' | 'email' | 'tel' | 'article' | 'whatsapp'
 }
 
 type RenderManagerAdittionalType = {
@@ -29,14 +28,21 @@ type RenderManagerAdittionalType = {
 }
 
 const ManageInfo = () => {
-	const [dataInfo, setDataInfo] = useStateArray<DataInfoType>([])
+	const [dataInfo, setDataInfo, initDataInfo] = useStateArray<DataInfoType>([])
 	const saveData = async () => {
-		const data = dataInfo
-			.filter(d => d.updated)
-			.map(({ detail, key }) => ({ key, detail: typeof detail === 'string' ? detail : JSON.stringify(detail) }))
+		const data = dataInfo.filter(d => d.updated)
 		if (data.length > 0) {
-			const { status, data: response } = await setInfo({ data })
+			const uploadedFile = await uploadAllFiles(data)
+			const { status, data: response } = await setInfo({
+				data: uploadedFile.map(
+					({ detail, key }) => ({
+						key,
+						detail: typeof detail === 'string' ? detail : JSON.stringify(detail)
+					})
+				)
+			})
 			if (status) {
+				getData()
 				alert(response)
 			}
 		}
@@ -48,7 +54,7 @@ const ManageInfo = () => {
 		const { status, data: allInfo } = await getInfo<DataInfoType>()
 		if (status) {
 			const data = parseAll<DataInfoType>(allInfo)
-			setDataInfo(data)
+			initDataInfo(data)
 		}
 	}
 	const effect = () => {
@@ -70,7 +76,7 @@ const ManageInfo = () => {
 	</Container>
 }
 
-const ModalEditArticle = (currentValue: string, onSave: (newValue: string) => void, onCancel?: () => void) => {
+const modalEditArticle = (currentValue: string, onSave: (newValue: string) => void, onCancel?: () => void) => {
 	let newValue: string
 	modal
 		.setBackdropClick(onCancel || modal.hide)
@@ -82,6 +88,53 @@ const ModalEditArticle = (currentValue: string, onSave: (newValue: string) => vo
 			</Wrapper>
 		</View>)
 		.show()
+}
+
+type RetUpload = { key: string, detail: unknown }
+const uploadAllFiles = async (dataInfo: DataInfoType[]): Promise<RetUpload[]> => {
+	const path = 'info/'
+	const promises = dataInfo.map(data => {
+		return new Promise<RetUpload>(async (resolve) => {
+			const { detail, type, key } = data
+			if (type === 'image') {
+				const { status, data } = await uploadFile({ path, file: detail })
+				if (status) resolve({ key, detail: data.fullname })
+			} else if (['object', 'list'].includes(type)) {
+				let detailObject = detail as unknown[] | MyObject
+				if (Array.isArray(detail)) {
+					for (let index = 0; index < detail.length; index++) {
+						let list = detail[index]
+						if (typeof list === 'string' && list.isBase64File()) {
+							detailObject = detailObject as string[]
+							const { status, data } = await uploadFile({ path, file: detail })
+							if (status) detailObject[index] = data.fullname
+						} else {
+							for (const key in list as MyObject) {
+								const temp = list as MyObject
+								if (typeof temp[key] === 'string' && temp[key].isBase64File()) {
+									const { status, data } = await uploadFile({ path, file: temp[key] })
+									if (status) (detailObject as MyObject[])[index][key] = data.fullname
+								}
+							}
+						}
+					}
+				} else {
+					for (const key in detailObject) {
+						detailObject = detailObject as MyObject
+						const temp = detailObject[key]
+						if (typeof temp === 'string' && temp.isBase64File()) {
+							const { status, data } = await uploadFile({ path, file: temp })
+							if (status) detailObject[key] = data.fullname
+						}
+					}
+				}
+				resolve({ key, detail: detailObject })
+			} else {
+				resolve({ key, detail })
+			}
+		})
+	})
+	return Promise.all(promises)
 }
 
 const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataInfoType, 'key'> & RenderManagerAdittionalType) => {
@@ -133,7 +186,7 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 									<Input onBlur={e => edit(i, { ...data, title: e.target.value })} value={title} />
 								</View>
 								<View>
-									<Icon onClick={() => ModalEditArticle(
+									<Icon onClick={() => modalEditArticle(
 										description,
 										value => {
 											edit(i, { ...data, description: value })
@@ -171,7 +224,7 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 						}} accept="image/*" className="mr-3 w-1/3 o-h">
 							<Image source={AboutHome.image.length > 100 ? AboutHome.image : FILE_PATH + AboutHome.image} />
 						</FileUpload>
-						<Icon onClick={() => ModalEditArticle(
+						<Icon onClick={() => modalEditArticle(
 							AboutHome.description,
 							description => {
 								updateData(index, detail, { ...AboutHome, description })
@@ -183,7 +236,7 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 		case 'article':
 			return <Button
 				justify="center"
-				onClick={() => ModalEditArticle(
+				onClick={() => modalEditArticle(
 					detail as string,
 					article => {
 						updateData(index, detail, article)

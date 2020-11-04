@@ -3,11 +3,11 @@ import { toBase64Type } from '../../utils';
 
 interface Props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
 	title?: string
-	className?: string,
-	isImage?: boolean,
-	imgClass?: string,
-	src?: string,
-	onChange?: (files: toBase64Type[]) => void,
+	className?: string
+	isImage?: boolean
+	imgClass?: string
+	src?: string
+	onChange?: (files: toBase64Type[]) => void
 	children: JSX.Element
 }
 
@@ -33,7 +33,6 @@ const FileUpload = ({
 		<input style={{ display: 'none' }} onChange={async e => {
 			const files = e.target.files
 			if (files) {
-				console.log(files)
 				const data = await files.toBase64()
 				onChange(data)
 			}

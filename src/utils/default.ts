@@ -84,6 +84,14 @@ const caseReplacer = (str: string, separator: '_' | '-') => {
 const caseReplacerFromCamel = function (str: string, separator: '-' | '_') {
 	return str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, `$1${separator}$2`).toLowerCase();
 }
+String.prototype.isBase64File = function () {
+	try {
+		const base64data = this.replace(/data:\w+\/\w+;base64,/g, '')
+		return Boolean(atob(base64data))
+	} catch (error) {
+		return false
+	}
+}
 String.prototype.kebabToCamel = function () {
 	const camelCase = caseReplacer(this as string, '-')
 	return camelCase

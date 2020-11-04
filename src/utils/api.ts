@@ -7,6 +7,19 @@ const API = BASE_URL + '/api.php'
 export const FILE_PATH = BASE_URL + '/files'
 
 /* Must with token */
+export type UploadFileType = {
+	name: string
+	format: string
+	path: string
+	fullname: string
+}
+export const uploadFile = async (params: object = {}): Promise<ResponseType<UploadFileType>> => {
+	const resp = await axios.post(API, {
+		action: "UploadFile",
+		...params
+	})
+	return resp.data
+}
 export const setInfo = async <S>(params: object = {}): Promise<ResponseType<S>> => {
 	const resp = await axios.post(API, {
 		action: "SetInfo",

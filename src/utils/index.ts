@@ -24,6 +24,7 @@ declare global {
 		convertRupiah(): string
 	}
 	interface String {
+		isBase64File(): boolean
 		kebabToCamel(): string
 		snakeToCamel(): string
 		camelToSnake(): string
