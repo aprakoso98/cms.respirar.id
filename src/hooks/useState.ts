@@ -9,7 +9,12 @@ export const useToggle = (init: boolean = false): [boolean, (set?: boolean) => v
 
 export const useStateObject = <S extends stateType>(initState: S): [S, (newValue: S) => void] => {
 	const [state, setState] = useState(initState)
-	return [state, (newValue: S) => setState({ ...state, ...newValue })]
+	return [
+		state,
+		(newValue: S) => {
+			setState({ ...state, ...newValue })
+		}
+	]
 }
 
 export const useStateArray = <S>(initialValue: S[] = []): [
@@ -18,15 +23,17 @@ export const useStateArray = <S>(initialValue: S[] = []): [
 	(override: S[]) => void
 ] => {
 	const [state, setState] = useState(initialValue || [])
-	return [state, (value: S | S[], indexOrPush?: boolean | number) => {
+	return [state, (valueOrIndex: number | S | S[], indexOrPush?: boolean | number) => {
 		let newState = state.slice()
-		if (Array.isArray(value)) {
-			newState = [...newState, ...value]
+		if (Array.isArray(valueOrIndex)) {
+			newState = [...newState, ...valueOrIndex]
+		} else if (typeof valueOrIndex === 'number') {
+			newState.splice(valueOrIndex, 1)
 		} else {
-			if (typeof indexOrPush === 'boolean') {
-				newState.push(value)
-			} else if (typeof indexOrPush === 'number') {
-				newState[indexOrPush] = value
+			if (typeof indexOrPush === 'number') {
+				newState[indexOrPush] = valueOrIndex
+			} else {
+				newState.push(valueOrIndex)
 			}
 		}
 		setState(newState)

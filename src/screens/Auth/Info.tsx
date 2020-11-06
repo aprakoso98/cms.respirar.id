@@ -1,4 +1,3 @@
-import JoditEditor from 'jodit-react';
 import React, { useEffect, } from 'react';
 import Button from 'src/components/elements/Button';
 import Container from 'src/components/elements/Container';
@@ -10,9 +9,9 @@ import Text from 'src/components/elements/Text';
 import View from 'src/components/elements/View';
 import Wrapper from 'src/components/elements/Wrapper';
 import { useStateArray, } from 'src/hooks/useState';
-import { modal } from 'src/redux/actions/modal';
 import { parseAll } from 'src/utils/helper';
 import { uploadFile, setInfo, FILE_PATH, getInfo } from 'src/utils/api';
+import openModalArticle from 'src/components/commons/OpenModalArticle';
 
 type DataInfoType = {
 	updated?: boolean
@@ -74,20 +73,6 @@ const ManageInfo = () => {
 			<Button className="absolute bg-blue" textProps={{ className: 'c-light' }} style={{ zIndex: 99, right: 20, bottom: 20 }} justify="center" onClick={saveData}><Icon name="save" className="c-light mr-3" />Save data</Button>
 		}
 	</Container>
-}
-
-const modalEditArticle = (currentValue: string, onSave: (newValue: string) => void, onCancel?: () => void) => {
-	let newValue: string
-	modal
-		.setBackdropClick(onCancel || modal.hide)
-		.setContent(<View className="w-5/6 h-full mv-10 bg-light">
-			<JoditEditor onChange={(value) => newValue = value} value={currentValue} />
-			<Wrapper justify="end">
-				<Button className="mr-3" onClick={onCancel || modal.hide}>Cancel</Button>
-				<Button onClick={() => onSave(newValue)}>Save</Button>
-			</Wrapper>
-		</View>)
-		.show()
 }
 
 type RetUpload = { key: string, detail: unknown }
@@ -186,11 +171,11 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 									<Input onBlur={e => edit(i, { ...data, title: e.target.value })} value={title} />
 								</View>
 								<View>
-									<Icon onClick={() => modalEditArticle(
+									<Icon onClick={() => openModalArticle(
 										description,
-										value => {
+										(value, hideModal) => {
 											edit(i, { ...data, description: value })
-											modal.hide()
+											hideModal()
 										}
 									)} className="f-5 c-light mb-3" name="edit" />
 									<Icon className="f-5 c-light" name="trash" onClick={() => deleteFromList(index, i, aboutWhy)} />
@@ -224,11 +209,11 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 						}} accept="image/*" className="mr-3 w-1/3 o-h">
 							<Image source={AboutHome.image.length > 100 ? AboutHome.image : FILE_PATH + AboutHome.image} />
 						</FileUpload>
-						<Icon onClick={() => modalEditArticle(
+						<Icon onClick={() => openModalArticle(
 							AboutHome.description,
-							description => {
+							(description, hideModal) => {
 								updateData(index, detail, { ...AboutHome, description })
-								modal.hide()
+								hideModal()
 							})} name="edit" className="f-5" />
 					</Wrapper>
 			}
@@ -236,11 +221,11 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 		case 'article':
 			return <Button
 				justify="center"
-				onClick={() => modalEditArticle(
+				onClick={() => openModalArticle(
 					detail as string,
-					article => {
+					(article, hideModal) => {
 						updateData(index, detail, article)
-						modal.hide()
+						hideModal()
 					})}><Icon name="edit" className="mr-3" />Edit</Button>
 		default:
 			return <Input

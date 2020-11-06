@@ -14,6 +14,8 @@ import SideBar from '../components/commons/SideBar';
 import Text from 'src/components/elements/Text';
 import ManageBanner from './Auth/Banner';
 import Marketplaces from './Auth/Marketplaces';
+import About from './Auth/About';
+import Product from './Auth/Product';
 
 const App = (): JSX.Element => {
 	const [, , isMobile] = useWindowSize()
@@ -24,7 +26,9 @@ const App = (): JSX.Element => {
 			<View className="p-2" items="center">
 				<Text>Maaf, CMS tidak untuk tampilan mobile.</Text>
 			</View> : <>
-				<Modal onClick={ModalState.backdropClick} visible={ModalState.visible}>{ModalState.content}</Modal>
+				<Modal onClick={ModalState.backdropClick} visible={ModalState.visible}>
+					<View className={ModalState.className}>{ModalState.content}</View>
+				</Modal>
 				<Routes />
 			</>
 		}
@@ -43,6 +47,8 @@ const AuthRoutes = ({ url }: { url: string }) => {
 				<Route path={`${url}/banner`} component={ManageBanner} />
 				<Route path={`${url}/info`} component={ManageInfo} />
 				<Route path={`${url}/marketplaces`} component={Marketplaces} />
+				<Route path={`${url}/about`} component={About} />
+				<Route path={`${url}/product`} component={Product} />
 			</Switch>
 		</View>
 	</Wrapper>

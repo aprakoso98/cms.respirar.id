@@ -2,6 +2,7 @@
 @import "functions";
 @import "global";
 
+
 html, body, #root, #app {
 	height: 100%;
 	overflow: hidden;
@@ -23,5 +24,6 @@ html, body, #root, #app {
 			overflow: auto;
 		}
 		@import "Info";
+		@import "Marketplace";
 	}
 }

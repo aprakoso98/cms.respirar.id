@@ -1,10 +1,15 @@
 import config from '../env.json'
 import axios from 'axios';
-import { ResponseType } from './types';
+import { aboutType, marketplaceType, productParsedType, producType, ResponseType } from './types';
 
 const { BASE_URL } = config
 const API = BASE_URL + '/api.php'
 export const FILE_PATH = BASE_URL + '/files'
+
+const httpRequest = async <S>(action: string, params: MyObject<unknown> = {}): Promise<ResponseType<S>> => {
+	const resp = await axios.post(API, { action, ...params })
+	return resp.data
+}
 
 /* Must with token */
 export type UploadFileType = {
@@ -13,72 +18,58 @@ export type UploadFileType = {
 	path: string
 	fullname: string
 }
-export const uploadFile = async (params: object = {}): Promise<ResponseType<UploadFileType>> => {
-	const resp = await axios.post(API, {
-		action: "UploadFile",
-		...params
-	})
-	return resp.data
+export const uploadFile = (params: MyObject<unknown> = {}) => {
+	return httpRequest<UploadFileType>('UploadFile', params)
 }
-export const setInfo = async <S>(params: object = {}): Promise<ResponseType<S>> => {
-	const resp = await axios.post(API, {
-		action: "SetInfo",
-		...params
-	})
-	return resp.data
+export const updateMarketplace = (params: { data: marketplaceType[] }) => {
+	return httpRequest<string>('UpdateMarketplace', params)
 }
-export const setPosition = async <S>(params: object = {}): Promise<ResponseType<S>> => {
-	const resp = await axios.post(API, {
-		action: "SetPosition",
-		...params
-	})
-	return resp.data
+export const updateAbout = (params: { data: aboutType[] }) => {
+	return httpRequest<string>('UpdateAbout', params)
 }
-export const manageBanner = async <S>(params: object = {}): Promise<ResponseType<S>> => {
-	const resp = await axios.post(API, {
-		action: "ManageBanner",
-		...params
+export const updateProduct = (params: { data: productParsedType[] }) => {
+	const data: producType[] = params.data.map(data => {
+		const prices = data.prices.join('|')
+		const sizes = data.sizes.join('|')
+		const marketplaces = JSON.stringify(data.marketplaces)
+		return { ...data, prices, sizes, marketplaces }
 	})
-	return resp.data
+	return httpRequest<string>('UpdateProduct', { data })
+}
+export const setInfo = <S, P = {}>(params: MyObject<P> = {}): Promise<ResponseType<S>> => {
+	return httpRequest<S>('SetInfo', params)
+}
+export const setPosition = <S, P = {}>(params: MyObject<P> = {}): Promise<ResponseType<S>> => {
+	return httpRequest<S>('SetPosition', params)
+}
+export const manageBanner = <S, P = {}>(params: MyObject<P> = {}): Promise<ResponseType<S>> => {
+	return httpRequest<S>('ManageBanner', params)
 }
 
 /* Without token */
-export const getBanner = async <S>(params: object = {}): Promise<ResponseType<S>> => {
-	const resp = await axios.post(API, {
-		action: "GetBanner",
-		...params
-	})
-	return resp.data
+export const getBanner = <S, P = {}>(params: MyObject<P> = {}): Promise<ResponseType<S>> => {
+	return httpRequest<S>('GetBanner', params)
 }
 
-export const getProduct = async <S>(params: object = {}): Promise<ResponseType<S>> => {
-	const resp = await axios.post(API, {
-		action: "GetProduct",
-		...params
+export const getProduct = async (params: MyObject = {}): Promise<ResponseType<productParsedType[]>> => {
+	const { status, data: response } = await httpRequest<producType[]>('GetProduct', params)
+	const data = response.map(data => {
+		const prices = data.prices.split('|')
+		const sizes = data.sizes.split('|')
+		const marketplaces = JSON.parse(data.marketplaces)
+		return { ...data, prices, sizes, marketplaces }
 	})
-	return resp.data
+	return { status, data }
 }
 
-export const getMarketplace = async <S>(params: object = {}): Promise<ResponseType<S>> => {
-	const resp = await axios.post(API, {
-		action: "GetMarketplace",
-		...params
-	})
-	return resp.data
+export const getMarketplace = (params: MyObject = {}): Promise<ResponseType<marketplaceType[]>> => {
+	return httpRequest<marketplaceType[]>('GetMarketplace', params)
 }
 
-export const getAbout = async <S>(params: object = {}): Promise<ResponseType<S>> => {
-	const resp = await axios.post(API, {
-		action: "GetAbout",
-		...params
-	})
-	return resp.data
+export const getAbout = (params: MyObject = {}): Promise<ResponseType<aboutType[]>> => {
+	return httpRequest<aboutType[]>('GetAbout', params)
 }
 
-export const getInfo = async <S>(params: object = {}): Promise<ResponseType<S>> => {
-	const resp = await axios.post(API, {
-		action: "GetInfo",
-		...params
-	})
-	return resp.data
+export const getInfo = <S, P = {}>(params: MyObject<P> = {}): Promise<ResponseType<S>> => {
+	return httpRequest<S>('GetInfo', params)
 }

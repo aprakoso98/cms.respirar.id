@@ -11,10 +11,24 @@ export interface ResponseType<R> {
 }
 
 export type marketplaceType = {
-	id: string
 	baseUrl: string
 	icon: string
-	marketPlaceName: string
+	marketplaceName: string
+	id: string
+	updated?: boolean
+	uploadedNewImage?: boolean
+	deleted?: boolean
+}
+
+export type aboutType = {
+	headline: string
+	image: string
+	description: string
+	position?: number
+	id?: string
+	updated?: boolean
+	uploadedNewImage?: boolean
+	deleted?: boolean
 }
 
 export type productMarketplaceType = MyObject
@@ -30,16 +44,24 @@ export type collectionType = {
 }
 
 export type producType = {
-	id: string
-	isHighlighted: string
-	highlightIndex: string
-	productName: string
-	sku: string
 	availability: string
-	sizes: string
-	prices: string
-	marketplaces: string
 	description: string
-	shortDescription: string
+	id: string
 	image: string
+	marketplaces: string
+	prices: string
+	productName: string
+	productUrl: string
+	shortDescription: string
+	sizes: string
+	sku: string
+	updated?: boolean
+	deleted?: boolean
+	uploadedNewImage?: boolean
 }
+
+export type productParsedType = {
+	sizes: string[]
+	prices: string[]
+	marketplaces: MyObject
+} & Omit<producType, 'sizes' | 'prices' | 'marketplaces'>

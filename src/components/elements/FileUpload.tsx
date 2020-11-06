@@ -24,7 +24,7 @@ const FileUpload = ({
 }: Props) => {
 	const id = `${''.uuid()}-${''.uuid()}`
 	return <>
-		<label title={title} className={`pointer ${className}`} htmlFor={id}>
+		<label title={title || 'Click to change file'} className={`pointer ${className}`} htmlFor={id}>
 			{
 				children ? children :
 					isImage && <img className={imgClass} alt="" src={src} />

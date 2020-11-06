@@ -1,5 +1,22 @@
+ul, ol {
+  list-style: revert;
+  margin: revert;
+  padding: revert;
+}
 input {
   padding: $secondary;
+}
+.odd-even-color {
+	& > .items {
+    &.deleted {
+      display: none;
+    }
+		padding: 10px;
+    margin-bottom: $space;
+		&:nth-child(even) {
+      background: $grey;
+		}
+	}
 }
 .pointer {
 	cursor: pointer;
