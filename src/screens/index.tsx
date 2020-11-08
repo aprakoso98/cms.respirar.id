@@ -16,6 +16,7 @@ import ManageBanner from './Auth/Banner';
 import Marketplaces from './Auth/Marketplaces';
 import About from './Auth/About';
 import Product from './Auth/Product';
+import HighlightHome from './Auth/HighlightHome';
 
 const App = (): JSX.Element => {
 	const [, , isMobile] = useWindowSize()
@@ -49,6 +50,7 @@ const AuthRoutes = ({ url }: { url: string }) => {
 				<Route path={`${url}/marketplaces`} component={Marketplaces} />
 				<Route path={`${url}/about`} component={About} />
 				<Route path={`${url}/product`} component={Product} />
+				<Route path={`${url}/highlight-home`} component={HighlightHome} />
 			</Switch>
 		</View>
 	</Wrapper>

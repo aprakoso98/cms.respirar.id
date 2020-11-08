@@ -1,5 +1,6 @@
 {
   "app": {
-    "BASE_URL": "http://127.0.0.1/respirar.id"
+    "BASE_URL": "http://127.0.0.1/respirar.id",
+    "FILE_URL": "http://127.0.0.1/files.respirar.id"
   }
 }

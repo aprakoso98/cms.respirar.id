@@ -1,5 +1,6 @@
 {
   "app": {
-    "BASE_URL": "https://api.respirar.id"
+    "BASE_URL": "https://api.respirar.id",
+    "FILE_URL": "https://files.respirar.id"
   }
 }

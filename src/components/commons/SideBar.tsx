@@ -31,6 +31,7 @@ const SideBar = () => {
 			<Button justify="between" className="mb-1 bg-blueSky" onClick={() => history.push('/app/marketplaces')}>Marketplaces<Icon name="chevron-right" /></Button>
 			<Button justify="between" className="mb-1 bg-blueSky" onClick={() => history.push('/app/about')}>About<Icon name="chevron-right" /></Button>
 			<Button justify="between" className="mb-1 bg-blueSky" onClick={() => history.push('/app/product')}>Product<Icon name="chevron-right" /></Button>
+			<Button justify="between" className="mb-1 bg-blueSky" onClick={() => history.push('/app/highlight-home')}>Highlight Home<Icon name="chevron-right" /></Button>
 			{/* </View>}
 			</View> */}
 		</View>

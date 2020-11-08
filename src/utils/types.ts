@@ -1,4 +1,5 @@
 import { RouteComponentProps } from "react-router-dom";
+import { toBase64Type } from ".";
 import { Colors } from "./constants";
 
 export type screenProps<Params extends { [K in keyof Params]?: string } = {}> = RouteComponentProps<{ product: string } & Params>
@@ -33,35 +34,24 @@ export type aboutType = {
 
 export type productMarketplaceType = MyObject
 
-export type collectionType = {
-	id: string,
-	productUrl: string,
-	productName: string,
-	shortDescription: string,
-	image: string,
-	prices: string,
-	marketplaces: string
-}
+export type collectionType = Record<'id' | 'productUrl' | 'productName' | 'shortDescription' | 'image' | 'prices' | 'marketplaces', string>
 
-export type producType = {
-	availability: string
-	description: string
-	id: string
-	image: string
-	marketplaces: string
-	prices: string
-	productName: string
-	productUrl: string
-	shortDescription: string
-	sizes: string
-	sku: string
-	updated?: boolean
-	deleted?: boolean
-	uploadedNewImage?: boolean
-}
+export type producType = Record<'availability' | 'description' | 'id' | 'image' | 'marketplaces' | 'prices' | 'productName' | 'productUrl' | 'shortDescription' | 'sizes' | 'sku', string> & Partial<Record<'updated' | 'deleted' | 'uploadedNewImage', boolean>>
 
 export type productParsedType = {
 	sizes: string[]
 	prices: string[]
 	marketplaces: MyObject
 } & Omit<producType, 'sizes' | 'prices' | 'marketplaces'>
+
+
+export type HighlightType = Record<'name' | 'image' | 'btnText' | 'redirect' | 'id' | 'position', string> & { visible?: '1' | '0' }
+
+export type ManageHighlightType = {
+	type: 'insert' | 'delete' | 'toggle' | 'change'
+	data?: toBase64Type[]
+	id?: string
+	visible?: '1' | '0'
+	target?: 'name' | 'redirect' | 'btnText'
+	value?: string
+}
