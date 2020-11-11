@@ -72,12 +72,19 @@ const Product = () => {
 	useEffect(effect, [])
 	return <Container className="odd-even-color" id="product">
 		{products.rMap((data, index) => {
-			const { productName, availability, prices, sizes, marketplaces: marketplace, shortDescription, sku, productUrl, description, image, deleted } = data
+			type DataImages = Pick<productParsedType, 'image' | 'image2' | 'image3' | 'image4' | 'image5'>
+			const images = Object.keys(data).filter(key => key.includes('image')) as (keyof DataImages)[]
+			const { productName, availability, prices, sizes, marketplaces: marketplace, shortDescription, sku, productUrl, description, deleted } = data
 			return <Wrapper items="start" className={`items mb-2 ${deleted ? 'deleted' : ''}`}>
-				<FileUpload onChange={([image]) => setProduct({ ...products[index], image: image.file, uploadedNewImage: true, updated: true }, index)} className="w-1/5 mr-3">
-					<Image source={image ? (image.length > 100 ? image : FILE_PATH + image) : require('src/assets/images/marketplace-thumb.jpg')} />
-				</FileUpload>
-				<View className="mr-3" self="start" flex>
+				<View wrap direction="row" className="w-1/3 -m-1">
+					{images.rMap((key) => {
+						const gambar = data[key]
+						return <FileUpload onChange={([image]) => setProduct({ ...data, [key]: image.file, updated: true }, index)} accept="image" className="w-1/2 o-h p-1">
+							<Image source={gambar ? (gambar.length > 100 ? gambar : FILE_PATH + gambar) : require('src/assets/images/marketplace-thumb.jpg')} />
+						</FileUpload>
+					})}
+				</View>
+				<View className="ml-3" self="start" flex>
 					<Input className="w-full" onBlur={e => updateProductData(e, 'productName', index)} value={productName} />
 					<Input className="w-full" onBlur={e => updateProductData(e, 'productUrl', index)} value={productUrl} />
 					<Input className="w-full" onBlur={e => updateProductData(e, 'availability', index)} value={availability} />
@@ -104,7 +111,7 @@ const Product = () => {
 				</View>
 			</Wrapper>
 		})}
-		<Button className="except" onClick={() => setProduct({ prices: [] as string[] } as productParsedType)} justify="center"><Icon name="plus" className="mr-3" />Add</Button>
+		<Button className="except" onClick={() => setProduct({ image: '', image2: '', image3: '', image4: '', image5: '', sizes: [] as string[], prices: [] as string[] } as productParsedType)} justify="center"><Icon name="plus" className="mr-3" />Add</Button>
 		{products.filter(d => d.updated).length > 0 &&
 			<Button className="absolute bg-blue" textProps={{ className: 'c-light' }} style={{ zIndex: 99, right: 20, bottom: 20 }} justify="center" onClick={saveData}><Icon name="save" className="c-light mr-3" />Save data</Button>
 		}

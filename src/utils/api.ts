@@ -4,7 +4,7 @@ import { aboutType, HighlightType, ManageHighlightType, marketplaceType, product
 
 const { BASE_URL, FILE_URL } = config
 const API = BASE_URL + '/api.php'
-export const FILE_PATH = FILE_URL + '/'
+export const FILE_PATH = FILE_URL
 
 const httpRequest = async <S>(action: string, params: MyObject<unknown> = {}): Promise<ResponseType<S>> => {
 	const resp = await axios.post(API, { action, ...params })
