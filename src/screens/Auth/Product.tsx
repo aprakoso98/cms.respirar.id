@@ -6,6 +6,7 @@ import FileUpload from 'src/components/elements/FileUpload';
 import Icon from 'src/components/elements/Icon';
 import Image from 'src/components/elements/Image';
 import Input from 'src/components/elements/Input';
+import Text from 'src/components/elements/Text';
 import View from 'src/components/elements/View';
 import Wrapper from 'src/components/elements/Wrapper';
 import { useStateArray } from 'src/hooks/useState';
@@ -16,6 +17,7 @@ import { marketplaceType, productParsedType } from 'src/utils/types';
 const Product = () => {
 	const [products, setProduct, initProducts] = useStateArray<productParsedType>()
 	const [marketPlaces, , initMarketplace] = useStateArray<marketplaceType>()
+	// const [categories, , initKategori] = useStateArray<string>()
 	const updateProductData = (event: FocusEvent<HTMLInputElement>, key: keyof productParsedType, index: number) => setProduct({ ...products[index], [key]: event.target.value, updated: true }, index)
 	const saveData = async () => {
 		const dataToSave = products.filter(d => d.updated)
@@ -24,15 +26,17 @@ const Product = () => {
 		if (status) getData()
 	}
 	const getData = async () => {
-		const resp = await getMarketplace()
-		if (resp.status) initMarketplace(resp.data)
+		const respMarketplace = await getMarketplace()
+		if (respMarketplace.status) initMarketplace(respMarketplace.data)
+		// const respKategori = await getProductCategori()
+		// initKategori(respKategori)
 		const { status, data } = await getProduct()
 		if (status) initProducts(data)
 	}
 	const editMarketplace = (index: number, marketplace: productParsedType['marketplaces'], set?: boolean) => {
 		if (set) {
 			for (const key in marketplace) if (!marketplace[key]) delete marketplace[key]
-			setProduct({ ...products[index], marketplaces: marketplace })
+			setProduct({ ...products[index], marketplaces: marketplace }, index)
 			modal.hide()
 		} else {
 			modal.setBackdropClick(modal.hide).setContent(<>
@@ -72,9 +76,10 @@ const Product = () => {
 	useEffect(effect, [])
 	return <Container className="odd-even-color" id="product">
 		{products.rMap((data, index) => {
-			type DataImages = Pick<productParsedType, 'image' | 'image2' | 'image3' | 'image4' | 'image5'>
+			type DataImages = Pick<productParsedType, 'image' | 'image2' | 'image3' | 'image4' | 'image5' | 'image6'>
+			const inputs = ['productName', 'productUrl', 'availability', 'shortDescription', 'sku', 'kategori']
 			const images = Object.keys(data).filter(key => key.includes('image')) as (keyof DataImages)[]
-			const { productName, availability, prices, sizes, marketplaces: marketplace, shortDescription, sku, productUrl, description, deleted } = data
+			const { prices, sizes, marketplaces: marketplace, description, deleted, /* kategori */ } = data
 			return <Wrapper items="start" className={`items mb-2 ${deleted ? 'deleted' : ''}`}>
 				<View wrap direction="row" className="w-1/3 -m-1">
 					{images.rMap((key) => {
@@ -85,11 +90,9 @@ const Product = () => {
 					})}
 				</View>
 				<View className="ml-3" self="start" flex>
-					<Input className="w-full" onBlur={e => updateProductData(e, 'productName', index)} value={productName} />
-					<Input className="w-full" onBlur={e => updateProductData(e, 'productUrl', index)} value={productUrl} />
-					<Input className="w-full" onBlur={e => updateProductData(e, 'availability', index)} value={availability} />
-					<Input className="w-full" onBlur={e => updateProductData(e, 'shortDescription', index)} value={shortDescription} />
-					<Input className="w-full" onBlur={e => updateProductData(e, 'sku', index)} value={sku} />
+					{/* @ts-ignore */}
+					{inputs.rMap(key => <Input renderLeftAccessory={() => <Text className="ml-2 w-1/3">{key.camelToSnake().split('_').join(' ').ucwords()}</Text>} className="w-full" onBlur={e => updateProductData(e, key, index)} value={data[key]} />)}
+					{/* <Input renderLeftAccessory={() => <Text className="ml-2 w-1/3">Kategori</Text>} className="w-full" onBlur={e => updateProductData(e, 'kategori', index)} value={kategori} /> */}
 					<View className="bg-blue p-2 mb-1">
 						{prices.rMap((_, i) => {
 							return <Wrapper>
@@ -111,7 +114,7 @@ const Product = () => {
 				</View>
 			</Wrapper>
 		})}
-		<Button className="except" onClick={() => setProduct({ image: '', image2: '', image3: '', image4: '', image5: '', sizes: [] as string[], prices: [] as string[] } as productParsedType)} justify="center"><Icon name="plus" className="mr-3" />Add</Button>
+		<Button className="except" onClick={() => setProduct({ availability: '', description: '', productName: '', productUrl: '', shortDescription: '', sku: '', kategori: '', image: '', image2: '', image3: '', image4: '', image5: '', image6: '', sizes: [] as string[], marketplaces: {}, prices: [] as string[], updated: true } as productParsedType)} justify="center"><Icon name="plus" className="mr-3" />Add</Button>
 		{products.filter(d => d.updated).length > 0 &&
 			<Button className="absolute bg-blue" textProps={{ className: 'c-light' }} style={{ zIndex: 99, right: 20, bottom: 20 }} justify="center" onClick={saveData}><Icon name="save" className="c-light mr-3" />Save data</Button>
 		}

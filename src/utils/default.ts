@@ -86,8 +86,9 @@ const caseReplacerFromCamel = function (str: string, separator: '-' | '_') {
 }
 String.prototype.isBase64File = function () {
 	try {
-		const base64data = this.replace(/data:\w+\/\w+;base64,/g, '')
-		return Boolean(atob(base64data))
+		// eslint-disable-next-line
+		const regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i
+		return !!this.match(regex);
 	} catch (error) {
 		return false
 	}

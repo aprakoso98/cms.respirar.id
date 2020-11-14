@@ -14,4 +14,6 @@ const Sizes = {
 	pH: 35
 }
 
+export const IMG_THUMB = require('src/assets/images/img-thumb.png')
+
 export { Sizes, Colors }

@@ -36,7 +36,7 @@ export type productMarketplaceType = MyObject
 
 export type collectionType = Record<'id' | 'productUrl' | 'productName' | 'shortDescription' | 'image' | 'prices' | 'marketplaces', string>
 
-export type producType = Record<'availability' | 'description' | 'id' | 'image' | 'image2' | 'image3' | 'image4' | 'image5' | 'marketplaces' | 'prices' | 'productName' | 'productUrl' | 'shortDescription' | 'sizes' | 'sku', string> & Partial<Record<'updated' | 'deleted' | 'uploadedNewImage', boolean>>
+export type producType = Record<'availability' | 'description' | 'id' | 'image' | 'image2' | 'image3' | 'image4' | 'image5' | 'image6' | 'kategori' | 'marketplaces' | 'prices' | 'productName' | 'productUrl' | 'shortDescription' | 'sizes' | 'sku', string> & Partial<Record<'updated' | 'deleted' | 'uploadedNewImage', boolean>>
 
 export type productParsedType = {
 	sizes: string[]

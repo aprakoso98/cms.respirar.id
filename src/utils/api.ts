@@ -56,7 +56,13 @@ export const getBanner = <S, P = {}>(params: MyObject<P> = {}): Promise<Response
 export const getHighlight = (params: { forCms?: boolean } = {}): Promise<ResponseType<HighlightType[]>> => {
 	return httpRequest<HighlightType[]>('GetHighlight', params)
 }
-export const getProduct = async (params: MyObject = {}): Promise<ResponseType<productParsedType[]>> => {
+export const getProductCategori = async () => {
+	const { data } = await httpRequest<{ kategori: string }[]>('GetProduct', { isKategori: true })
+	return data.map(e => e.kategori)
+}
+export const getProduct = async (params: {
+	isKategori?: boolean
+} = {}): Promise<ResponseType<productParsedType[]>> => {
 	const { status, data: response } = await httpRequest<producType[]>('GetProduct', params)
 	const data = response.map(data => {
 		const prices = data.prices.split('|')

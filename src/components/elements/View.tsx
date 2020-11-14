@@ -6,12 +6,12 @@ type childrenType = JSX.Element | ReactElement | ReactFragment | boolean | null;
 
 export interface ViewProps extends HTMLAttributes<HTMLDivElement> {
 	children?: childrenType | childrenType[]
-	direction?: 'row' | 'col' | 'col-reverse' | 'row-reverse'
-	items?: 'start' | 'end' | 'center' | 'baseline' | 'stretch'
-	content?: 'center' | 'start' | 'end' | 'between' | 'around' | 'evenly'
-	justify?: 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly'
-	self?: 'auto' | 'start' | 'end' | 'center' | 'stretch'
-	align?: 'left' | 'center' | 'right' | 'justify'
+	direction?: 'row' | 'col' | 'col-reverse' | 'row-reverse' | false
+	items?: 'start' | 'end' | 'center' | 'baseline' | 'stretch' | false
+	content?: 'center' | 'start' | 'end' | 'between' | 'around' | 'evenly' | false
+	justify?: 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly' | false
+	self?: 'auto' | 'start' | 'end' | 'center' | 'stretch' | false
+	align?: 'left' | 'center' | 'right' | 'justify' | false
 	flex?: boolean
 	idComponent?: string
 	replaceClass?: boolean

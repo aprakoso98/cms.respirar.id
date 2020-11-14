@@ -12,6 +12,7 @@ import { useStateArray, } from 'src/hooks/useState';
 import { parseAll } from 'src/utils/helper';
 import { uploadFile, setInfo, FILE_PATH, getInfo } from 'src/utils/api';
 import openModalArticle from 'src/components/commons/OpenModalArticle';
+import { IMG_THUMB } from 'src/utils/constants';
 
 type DataInfoType = {
 	updated?: boolean
@@ -98,7 +99,9 @@ const uploadAllFiles = async (dataInfo: DataInfoType[]): Promise<RetUpload[]> =>
 								const temp = list as MyObject
 								if (typeof temp[key] === 'string' && temp[key].isBase64File()) {
 									const { status, data } = await uploadFile({ path, file: temp[key] })
-									if (status) (detailObject as MyObject[])[index][key] = data.fullname
+									if (status) {
+										(detailObject as MyObject[])[index][key] = data.fullname
+									}
 								}
 							}
 						}
@@ -137,7 +140,7 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 		case 'file':
 		case 'image':
 			return <FileUpload onChange={([image]) => updateData(index, detail, image.file)} accept={type === 'image' ? 'image/*' : undefined} className="w-1/3 o-h">
-				{type === 'image' ? <Image source={detail as string} /> : <Icon name="edit" />}
+				{type === 'image' ? <Image thumb={IMG_THUMB} source={detail as string} /> : <Icon name="edit" />}
 			</FileUpload>
 		case 'object':
 		case 'list':
@@ -164,21 +167,24 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 					}
 					return <>
 						{aboutWhy.rMap((data, i) => {
-							const { icon, description, title } = data
-							return <Wrapper className="info-items">
-								<View className="mr-3" flex>
-									<Input onBlur={e => edit(i, { ...data, icon: e.target.value })} value={icon} renderRightAccessory={() => <Icon className="f-5" name={icon} />} />
+							const { icon, title } = data
+							return <Wrapper className="info-items bg-grey p-3 mb-1">
+								<FileUpload onChange={([image]) => edit(i, { ...data, icon: image.file })} className="w-1/6">
+									<Image thumb={IMG_THUMB} source={icon.length > 100 ? icon : FILE_PATH + icon} />
+								</FileUpload>
+								<View className="ml-3" flex>
+									{/* <Input onBlur={e => edit(i, { ...data, icon: e.target.value })} value={icon} renderRightAccessory={() => <Icon className="f-5" name={icon} />} /> */}
 									<Input onBlur={e => edit(i, { ...data, title: e.target.value })} value={title} />
-								</View>
-								<View>
-									<Icon onClick={() => openModalArticle(
-										description,
-										(value, hideModal) => {
-											edit(i, { ...data, description: value })
-											hideModal()
-										}
-									)} className="f-5 c-light mb-3" name="edit" />
-									<Icon className="f-5 c-light" name="trash" onClick={() => deleteFromList(index, i, aboutWhy)} />
+									<Wrapper className="mt-3" self="end">
+										{/* <Icon onClick={() => openModalArticle(
+											description,
+											(value, hideModal) => {
+												edit(i, { ...data, description: value })
+												hideModal()
+											}
+										)} className="f-5 c-light mr-3" name="edit" /> */}
+										<Icon className="f-5 c-dark" name="trash" onClick={() => deleteFromList(index, i, aboutWhy)} />
+									</Wrapper>
 								</View>
 							</Wrapper>
 						})}
@@ -191,8 +197,10 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 						{socmeds.rMap(({ icon, name, url }, i) => {
 							return <Wrapper className="info-items">
 								<View className="mr-3" flex>
-									<Input value={icon} renderRightAccessory={() => <Icon className="f-5" name={icon} />} />
-									<Input value={name} />
+									<Wrapper>
+										<Input flex className="mr-1" value={name} />
+										<Input flex items="center" className="ml-1" value={icon} renderRightAccessory={() => <Icon className="f-5" name={icon} />} />
+									</Wrapper>
 									<Input value={url} />
 								</View>
 								<Icon className="f-5 c-light" name="trash" onClick={() => deleteFromList(index, i, detail as [])} />

@@ -1,7 +1,7 @@
 import React, { HTMLAttributes, useEffect, useState } from 'react';
 import View, { ViewProps } from './View';
 
-interface InputProps extends HTMLAttributes<HTMLInputElement> {
+type InputProps = HTMLAttributes<HTMLInputElement> & {
 	wrapper?: ViewProps
 	noBorder?: boolean
 	value?: string
@@ -11,15 +11,17 @@ interface InputProps extends HTMLAttributes<HTMLInputElement> {
 	currency?: boolean
 	renderRightAccessory?: () => React.ReactNode
 	renderLeftAccessory?: () => React.ReactNode
-}
+} & Pick<ViewProps, 'items' | 'content' | 'justify' | 'self' | 'align'>
 
-const Input = ({ className = "", type, onBlur, currency, space, flex, renderRightAccessory, renderLeftAccessory, noBorder, value, wrapper, ...rest }: InputProps): JSX.Element => {
+const Input = ({ className = "", placeholder = "Type here...", type, onBlur, currency, space, flex, renderRightAccessory, renderLeftAccessory, noBorder, value, wrapper, ...rest }: InputProps): JSX.Element => {
 	const [key, setKey] = useState("".uuid())
 	const [Value, setValue] = useState(currency ? (value || '').extractNumber().convertRupiah() : value)
+	const { items, content, justify, self, align } = rest
+	const flexProps = { items, content, justify, self, align }
 	useEffect(() => {
 		setKey("".uuid())
 	}, [value])
-	return <View key={key} direction="row" idComponent="input" flex={flex} className={`bg-light mv-${space ? space : '1'} ${noBorder ? 'no-border' : ''} ${className}`} {...wrapper}>
+	return <View key={key} direction="row" idComponent="input" flex={flex} className={`bg-light mv-${space ? space : '1'} ${noBorder ? 'no-border' : ''} ${className}`} {...wrapper} {...flexProps}>
 		{/* {renderLeftAccessory && <View className="mr-1"> */}
 		{renderLeftAccessory && renderLeftAccessory()}
 		{/* </View>} */}
@@ -35,7 +37,7 @@ const Input = ({ className = "", type, onBlur, currency, space, flex, renderRigh
 			}
 			setValue(newValue)
 			setKey(''.uuid())
-		}} defaultValue={Value} className="w-full" {...rest} />
+		}} defaultValue={Value} placeholder={placeholder} className="w-full" {...rest} />
 		{/* {renderRightAccessory && <View className="mr-1"> */}
 		{renderRightAccessory && renderRightAccessory()}
 		{/* </View>} */}
