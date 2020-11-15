@@ -61,18 +61,20 @@ const HighlightHome = () => {
 						<Image style={{ opacity: isVisible ? 1 : .3 }} source={FILE_PATH + image} />
 					</View>
 					<Input
+						items="center"
 						onBlur={e => onBlur({ id, index, target: 'name', current: name, value: e.target.value })}
 						className="p-1 mv-1"
 						renderLeftAccessory={() => <Icon name="font" />}
 						defaultValue={name}
 					/>
-					<Input
+					{/* <Input
 						onBlur={e => onBlur({ id, index, target: 'btnText', current: redirect, value: e.target.value })}
 						className="p-1"
 						renderLeftAccessory={() => <Icon name="mouse" />}
 						defaultValue={btnText}
-					/>
+					/> */}
 					<Input
+						items="center"
 						onBlur={e => onBlur({ id, index, target: 'redirect', current: redirect, value: e.target.value })}
 						className="p-1"
 						renderLeftAccessory={() => <Icon name="link" />}

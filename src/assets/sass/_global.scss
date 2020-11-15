@@ -6,6 +6,15 @@ ul, ol {
 input {
   padding: $secondary;
 }
+.jodit-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  .jodit-workplace {
+    height: 100% !important;
+    max-height: 100% !important;
+  }
+}
 .odd-even-color {
 	& > .items {
     &.deleted {

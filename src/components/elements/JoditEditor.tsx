@@ -9,7 +9,7 @@ type Props = Omit<JoditProps, 'config'> & { config?: Omit<Partial<IJodit['option
 const JoditEditor = (props: Props) => {
 	const config: Props['config'] = {
 		buttons: [
-			'bold', 'italic', 'underline', 'eraser', '|',
+			'bold', 'italic', 'underline', '|',
 			'fontsize', 'brush', '|',
 			'ul', 'ol', 'align', '|',
 			'hr', '|',

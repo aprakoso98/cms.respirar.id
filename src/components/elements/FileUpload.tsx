@@ -35,6 +35,8 @@ const FileUpload = ({
 			if (files) {
 				const data = await files.toBase64()
 				onChange(data)
+			} else {
+				e.preventDefault()
 			}
 		}}  {...props} id={id} {...isImage ? { accept: 'image/*' } : {}} type="file" />
 	</>
