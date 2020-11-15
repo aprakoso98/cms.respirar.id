@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import store from 'src/redux';
 import Button from '../elements/Button';
 import Icon from '../elements/Icon';
 import Image from '../elements/Image';

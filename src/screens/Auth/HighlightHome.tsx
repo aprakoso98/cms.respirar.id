@@ -61,6 +61,7 @@ const HighlightHome = () => {
 						<Image style={{ opacity: isVisible ? 1 : .3 }} source={FILE_PATH + image} />
 					</View>
 					<Input
+						title="Add ~ to break a line"
 						items="center"
 						onBlur={e => onBlur({ id, index, target: 'name', current: name, value: e.target.value })}
 						className="p-1 mv-1"

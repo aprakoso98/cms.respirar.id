@@ -1,7 +1,8 @@
 ul, ol {
   list-style: revert;
-  margin: revert;
-  padding: revert;
+  // margin: 0;
+  // padding: revert;
+  padding-left: 1rem;
 }
 input {
   padding: $secondary;
