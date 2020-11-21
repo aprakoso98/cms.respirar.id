@@ -43,7 +43,7 @@ export const parseAll = <R>(data: unknown): R[] => {
 				break
 			case 'list':
 			case 'object':
-				ret.push({ key, type, detail: JSON.parse(detail) })
+				ret.push({ key, type, detail: JSON.parse(detail.replace(/\n/g, '')) })
 				break
 			default:
 				ret.push({ key, type, detail: detail })
