@@ -153,7 +153,7 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 								let newDetail = (detail as string[]).slice()
 								newDetail[i] = e.target.value
 								updateData(index, detail, newDetail)
-							}} value={hour} renderRightAccessory={() => <Icon className="f-5" name="trash" onClick={() => deleteFromList(index, i, detail as [])} />} />
+							}} items="center" value={hour} renderRightAccessory={() => <Icon className="mr-1 f-5" name="trash" onClick={() => deleteFromList(index, i, detail as [])} />} />
 						})}
 						<Button justify="center" onClick={() => addToList(index, aboutHours, "")}><Icon name="plus" className="mr-3" />Add</Button>
 					</>
@@ -199,7 +199,7 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 								<View className="mr-3" flex>
 									<Wrapper>
 										<Input flex className="mr-1" value={name} />
-										<Input flex items="center" className="ml-1" value={icon} renderRightAccessory={() => <Icon className="f-5" name={icon} />} />
+										<Input items="center" flex className="ml-1" value={icon} renderRightAccessory={() => <Icon className="mr-1 f-5" name={icon} />} />
 									</Wrapper>
 									<Input value={url} />
 								</View>

@@ -1,5 +1,7 @@
 export const reducerWebInitState = {
-	loggedIn: true
+	loggedIn: false,
+	token: '',
+	expired: ''
 }
 
 const reducerWeb = (state = reducerWebInitState, actions: any) => {

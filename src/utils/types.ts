@@ -55,3 +55,5 @@ export type ManageHighlightType = {
 	target?: 'name' | 'redirect' | 'btnText'
 	value?: string
 }
+
+export type loginResponse = Record<'token' | 'expired', string>

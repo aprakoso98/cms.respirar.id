@@ -1,6 +1,6 @@
 import config from '../env.json'
 import axios from 'axios';
-import { aboutType, HighlightType, ManageHighlightType, marketplaceType, productParsedType, producType, ResponseType } from './types';
+import { aboutType, HighlightType, loginResponse, ManageHighlightType, marketplaceType, productParsedType, producType, ResponseType } from './types';
 
 const { BASE_URL, FILE_URL } = config
 const API = BASE_URL + '/api.php'
@@ -50,6 +50,9 @@ export const manageHighlight = (params: ManageHighlightType = {} as ManageHighli
 }
 
 /* Without token */
+export const apiLogin = (params: { username: string, password: string }): Promise<ResponseType<loginResponse | string>> => {
+	return httpRequest<loginResponse | string>('Login', params)
+}
 export const getBanner = <S, P = {}>(params: MyObject<P> = {}): Promise<ResponseType<S>> => {
 	return httpRequest<S>('GetBanner', params)
 }

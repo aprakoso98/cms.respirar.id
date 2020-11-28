@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Container from 'src/components/elements/Container';
 import { useSelector } from 'react-redux';
-import Home from './Auth';
+// import Home from './Auth';
 import Login from './UnAuth';
 import ManageInfo from './Auth/Info';
 import Register from './UnAuth/Register';
@@ -44,7 +44,8 @@ const AuthRoutes = ({ url }: { url: string }) => {
 		</View>
 		<View id="app-wrapper" style={{ height }} className="p-3 w-3/4">
 			<Switch>
-				<Route exact path={url} component={Home} />
+				<Route exact path={url} component={() => <Redirect to={`${url}/banner`} />} />
+				{/* <Route exact path={url} component={Home} /> */}
 				<Route path={`${url}/banner`} component={ManageBanner} />
 				<Route path={`${url}/info`} component={ManageInfo} />
 				<Route path={`${url}/marketplaces`} component={Marketplaces} />

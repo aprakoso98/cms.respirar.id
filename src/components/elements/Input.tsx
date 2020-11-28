@@ -13,7 +13,7 @@ type InputProps = HTMLAttributes<HTMLInputElement> & {
 	renderLeftAccessory?: () => React.ReactNode
 } & Pick<ViewProps, 'items' | 'content' | 'justify' | 'self' | 'align'>
 
-const Input = ({ className = "", placeholder = "Type here...", type, onBlur, currency, space, flex, renderRightAccessory, renderLeftAccessory, noBorder, value, wrapper, ...rest }: InputProps): JSX.Element => {
+const Input = ({ className = "", placeholder = "Type here...", onBlur, currency, space, flex, renderRightAccessory, renderLeftAccessory, noBorder, value, wrapper, ...rest }: InputProps): JSX.Element => {
 	const [key, setKey] = useState("".uuid())
 	const [Value, setValue] = useState(currency ? (value || '').extractNumber().convertRupiah() : value)
 	const { items, content, justify, self, align } = rest

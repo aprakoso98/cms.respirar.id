@@ -4,14 +4,14 @@ type stateType = MyObject<unknown>
 
 export const useToggle = (init: boolean = false): [boolean, (set?: boolean) => void] => {
 	const [toggle, setToggle] = useState(init)
-	return [toggle, (set) => setToggle(set !== undefined ? set : !toggle)]
+	return [toggle, (set) => setToggle(set !== undefined ? typeof set === 'boolean' ? set : !toggle : !toggle)]
 }
 
-export const useStateObject = <S extends stateType>(initState: S): [S, (newValue: S) => void] => {
+export const useStateObject = <S extends stateType>(initState: S): [S, (newValue: Partial<S>) => void] => {
 	const [state, setState] = useState(initState)
 	return [
 		state,
-		(newValue: S) => {
+		(newValue: Partial<S>) => {
 			setState({ ...state, ...newValue })
 		}
 	]
