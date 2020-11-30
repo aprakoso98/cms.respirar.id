@@ -13,6 +13,7 @@ import { parseAll } from 'src/utils/helper';
 import { uploadFile, setInfo, FILE_PATH, getInfo } from 'src/utils/api';
 import openModalArticle from 'src/components/commons/OpenModalArticle';
 import { IMG_THUMB } from 'src/utils/constants';
+import { XmlEntities } from 'html-entities';
 
 type DataInfoType = {
 	updated?: boolean
@@ -33,6 +34,7 @@ const ManageInfo = () => {
 		const data = dataInfo.filter(d => d.updated)
 		if (data.length > 0) {
 			const uploadedFile = await uploadAllFiles(data)
+			// console.log(uploadedFile)
 			const { status, data: response } = await setInfo({
 				data: uploadedFile.map(
 					({ detail, key }) => ({
@@ -79,6 +81,7 @@ const ManageInfo = () => {
 type RetUpload = { key: string, detail: unknown }
 const uploadAllFiles = async (dataInfo: DataInfoType[]): Promise<RetUpload[]> => {
 	const path = 'info/'
+	const entities = new XmlEntities()
 	const promises = dataInfo.map(data => {
 		return new Promise<RetUpload>(async (resolve) => {
 			const { detail, type, key } = data
@@ -113,6 +116,8 @@ const uploadAllFiles = async (dataInfo: DataInfoType[]): Promise<RetUpload[]> =>
 						if (typeof temp === 'string' && temp.isBase64File()) {
 							const { status, data } = await uploadFile({ path, file: temp })
 							if (status) detailObject[key] = data.fullname
+						} else {
+							detailObject[key] = entities.encode(detailObject[key])
 						}
 					}
 				}

@@ -1,5 +1,5 @@
 export const reducerWebInitState = {
-	loggedIn: false,
+	loggedIn: true,
 	token: '',
 	expired: ''
 }
