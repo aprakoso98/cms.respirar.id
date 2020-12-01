@@ -66,7 +66,7 @@ const ManageInfo = () => {
 	return <Container flex id="info">
 		{dataInfo.rMap(({ key, detail, type }, i) => {
 			return <Wrapper items="start">
-				<Text items="start" className="w-1/3">{key.split('-').join(' ').ucwords()}</Text>
+				<Text items="start" className="pt-2 w-1/3">{key.split('-').join(' ').ucwords()}</Text>
 				<View wrap className="w-full">
 					<RenderManager updateData={updateData} index={i} detail={detail} id={key} type={type} />
 				</View>
