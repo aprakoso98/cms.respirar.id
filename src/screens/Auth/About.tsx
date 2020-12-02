@@ -37,7 +37,7 @@ const About = () => {
 		}
 		{about.rMap((data, index) => {
 			const { headline, description, image, deleted } = data
-			return <Wrapper items="start" className={`mb-2 info-items ${deleted ? 'deleted' : ''}`}>
+			return <Wrapper items="start" style={deleted ? { display: 'none' } : {}} className={`mb-2 info-items`}>
 				<FileUpload onChange={([image]) => setAbout({ ...about[index], image: image.file, uploadedNewImage: true, updated: true }, index)} className="w-1/5 mr-3">
 					<Image source={image ? (image.length > 100 ? image : FILE_PATH + image) : require('src/assets/images/marketplace-thumb.jpg')} />
 				</FileUpload>
