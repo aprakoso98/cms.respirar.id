@@ -36,7 +36,7 @@ const Product = () => {
 	const editMarketplace = (index: number, marketplace: productParsedType['marketplaces'], set?: boolean) => {
 		if (set) {
 			for (const key in marketplace) if (!marketplace[key]) delete marketplace[key]
-			setProduct({ ...products[index], marketplaces: marketplace }, index)
+			setProduct({ ...products[index], marketplaces: marketplace, updated: true }, index)
 			modal.hide()
 		} else {
 			modal.setBackdropClick(modal.hide).setContent(<>
