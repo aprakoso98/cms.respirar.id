@@ -198,15 +198,21 @@ const RenderManager = ({ updateData, index, detail, type, id: key }: Omit<DataIn
 				case 'socmed':
 					type SocmedType = { icon: string, name: string, url: string }
 					const socmeds = detail as SocmedType[]
+					const editSocmed = (i: number, data: SocmedType) => {
+						let newSocmed = socmeds.slice()
+						newSocmed[i] = data
+						updateData(index, socmeds, newSocmed)
+					}
 					return <>
-						{socmeds.rMap(({ icon, name, url }, i) => {
+						{socmeds.rMap((data, i) => {
+							const { icon, name, url } = data
 							return <Wrapper className="info-items">
 								<View className="mr-3" flex>
 									<Wrapper>
-										<Input flex className="mr-1" value={name} />
-										<Input items="center" flex className="ml-1" value={icon} renderRightAccessory={() => <Icon className="mr-1 f-5" name={icon} />} />
+										<Input onBlur={(e) => editSocmed(i, { ...data, name: e.target.value })} flex className="mr-1" value={name} />
+										<Input onBlur={(e) => editSocmed(i, { ...data, icon: e.target.value })} items="center" flex className="ml-1" value={icon} renderRightAccessory={() => <Icon className="mr-1 f-5" name={icon} />} />
 									</Wrapper>
-									<Input value={url} />
+									<Input onBlur={(e) => editSocmed(i, { ...data, url: e.target.value })} value={url} />
 								</View>
 								<Icon className="f-5 c-light" name="trash" onClick={() => deleteFromList(index, i, detail as [])} />
 							</Wrapper>
